@@ -53,7 +53,7 @@ export default function NewListing() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="wrapper space-y-9"
       >
-        <div className="space-y-4 mt-6">
+        <div className="mt-6 space-y-4">
           <h1>Create Listing</h1>
 
           {isError && <Error messaage={errorMessage} />}
@@ -92,9 +92,7 @@ export default function NewListing() {
           </div>
         </div>
 
-        <div className="text-end">
-          <SubmitButton isPending={isPending} />
-        </div>
+        <SubmitButton isPending={isPending} text="Submit" />
       </form>
     </Form>
   );

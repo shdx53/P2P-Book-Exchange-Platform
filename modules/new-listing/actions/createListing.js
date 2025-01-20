@@ -29,5 +29,5 @@ export const createListing = async (formData) => {
     return { error: "Oops! Something went wrong" };
   }
 
-    redirect("/");
+  redirect("/");
 };

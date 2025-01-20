@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { getSGTFormattedDate } from "@/lib/utils";
 import Image from "next/image";
-import RequestForm from "./RequestForm";
+import RequestForm from "./RequestForm/components/RequestForm";
 
 export default function Listing({ listing }) {
   return (
@@ -44,6 +44,7 @@ const Trigger = ({ imageURL, title, author }) => (
 );
 
 const Description = ({
+  listingId,
   imageURL,
   title,
   author,
@@ -80,7 +81,7 @@ const Description = ({
 
         <hr className="border-muted" />
 
-        <div className="text-sm space-y-4">
+        <div className="space-y-4 text-sm">
           <div className="flex gap-6">
             <div>
               <p className="font-medium">Listed by</p>
@@ -91,7 +92,7 @@ const Description = ({
               <p>{formattedDate}</p>
             </div>
           </div>
-          <RequestForm />
+          <RequestForm listingId={listingId} />
         </div>
       </div>
     </div>

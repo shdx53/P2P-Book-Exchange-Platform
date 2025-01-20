@@ -1,11 +1,10 @@
-"use server";
-
 import Listing from "./Listing";
 
 export default async function ListingList() {
-  const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/listings`);
+  const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/listings`, {
+    cache: "no-store",
+  });
   const listings = await data.json();
-
 
   if (!Array.isArray(listings)) {
     return (

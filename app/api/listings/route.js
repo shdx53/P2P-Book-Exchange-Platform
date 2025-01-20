@@ -1,6 +1,5 @@
 import { connection } from "@/lib/db";
 import { pinata } from "@/lib/pinata";
-import { getSession } from "@/modules/login/actions/getSession";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -11,7 +10,7 @@ export async function GET() {
 
     // Query the database to get all listings
     const [data] = await conn.query(
-      "SELECT listing_id, title, author, genre, description, image_url AS imageURL, listed_by AS listedBy, created_at AS createdAt FROM listings",
+      "SELECT listing_id as listingId, title, author, genre, description, image_url AS imageURL, listed_by AS listedBy, created_at AS createdAt FROM listings",
     );
 
     conn.release();
@@ -44,11 +43,12 @@ export async function POST(request) {
     const description = data.get("description");
     const listedBy = data.get("username");
 
+    // Validate the required fields
     if (!title || !author || !genre || !image || !description) {
       return NextResponse.json(
         {
           message:
-            "All fields (title, author, genre, image, description) are required",
+            "Missing required fields",
         },
         { status: 400 },
       );
