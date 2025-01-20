@@ -84,7 +84,6 @@ body {
 }
 
 /* General Styles */
-* {
-  font-family: Inter;
-  /* font-size: 14px; */
+main {
+  @apply px-8;
 }
