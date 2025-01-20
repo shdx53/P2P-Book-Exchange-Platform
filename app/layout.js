@@ -1,5 +1,5 @@
-import { BookCopy } from "lucide-react";
 import Footer from "./Components/Footer/Components/Footer";
+import Header from "./Components/Header";
 import "./globals.css";
 
 export const metadata = {
@@ -11,19 +11,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="antialiased">
-        <header className="flex justify-between p-6">
-          <div className="flex gap-4">
-            <div className="flex items-center gap-2">
-              <BookCopy className="h-6 w-6" />
-              <span className="font-bold">BookSwap</span>
-            </div>
-            <nav>
-              <span>Listings</span>
-            </nav>
-          </div>
-          <span>Log in</span>
-        </header>
-
+        <Header />
         {children}
         <Footer />
       </body>

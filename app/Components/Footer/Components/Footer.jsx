@@ -1,14 +1,11 @@
+import Logo from "../../Logo";
 import { footerNavLinks } from "../lib/constants/footerNavLinks";
-import { BookCopy } from "lucide-react";
 
 export default function Footer() {
   return (
     <footer className="absolute bottom-0 w-full bg-primary p-8 text-secondary-foreground">
-      <div className="mb-16 flex gap-80">
-        <div className="flex gap-2">
-          <BookCopy />
-          <span className="font-bold">BookSwap</span>
-        </div>
+      <div className="mb-16 flex gap-80 items-start">
+        <Logo />
         <div className="grid grid-cols-2 gap-12 text-sm">
           {footerNavLinks.map((footerNavLink) => (
             <NavLinkColumn footerNavLink={footerNavLink} />
@@ -16,13 +13,13 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="text-end text-xs opacity-50 flex justify-between">
+      <div className="flex justify-between text-end text-xs opacity-50">
         <span>© 2024 BookSwap. All rights reserved</span>
         <div className="space-x-4">
           <span>Terms of Use</span>
           <span>Policy Policy</span>
         </div>
-      </div>  
+      </div>
     </footer>
   );
 }
