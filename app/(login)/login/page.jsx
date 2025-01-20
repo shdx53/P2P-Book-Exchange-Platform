@@ -9,10 +9,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CircleX } from "lucide-react";
+import { useFormState } from "@/hooks/useFormState";
+import { Ellipsis } from "lucide-react";
 
 export default function Login() {
-  // Form error state
-  const [formError, setFormError] = useState(null);
+  // Form state
+  const { isPending, setIsPending, isError, setIsError } = useFormState();
 
   // Form config
   const form = useForm({
@@ -25,8 +27,10 @@ export default function Login() {
   });
 
   async function onSubmit(data) {
+    setIsPending(true);
     const { error } = await login(data);
-    setFormError(error);
+    setIsPending(false);
+    setIsError(error);
   }
 
   return (
@@ -43,10 +47,10 @@ export default function Login() {
             </h2>
           </div>
 
-          {formError && (
+          {isError && (
             <div className="flex items-center gap-2 rounded-md bg-red-100 p-3 text-red-500">
               <CircleX />
-              <p className="text-sm">{formError}</p>
+              <p className="text-sm">{isError}</p>
             </div>
           )}
 
@@ -67,8 +71,8 @@ export default function Login() {
           </div>
         </div>
 
-        <Button type="submit" className="w-full">
-          Submit
+        <Button type="submit" className="w-full" disabled={isPending}>
+          {isPending ? <Ellipsis /> : "Submit"}
         </Button>
       </form>
     </Form>
