@@ -1,5 +1,6 @@
-import "./globals.css";
 import { BookCopy } from "lucide-react";
+import Footer from "./Components/Footer/Components/Footer";
+import "./globals.css";
 
 export const metadata = {
   title: "Create Next App",
@@ -17,12 +18,14 @@ export default function RootLayout({ children }) {
               <span className="font-bold">BookSwap</span>
             </div>
             <nav>
-              <span>Book Listings</span>
+              <span>Listings</span>
             </nav>
           </div>
           <span>Log in</span>
         </header>
+
         {children}
+        <Footer />
       </body>
     </html>
   );
