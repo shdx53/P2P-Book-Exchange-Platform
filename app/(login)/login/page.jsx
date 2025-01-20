@@ -1,20 +1,26 @@
 "use client";
 
-import TextInput from "@/components/Form/TextInput";
-import { Button } from "@/components/ui/button";
+import Error from "@/components/Error";
+import FormInput from "@/components/Form/FormInput";
+import SubmitButton from "@/components/Form/SubmitButton";
 import { Form } from "@/components/ui/form";
+import { useFormState } from "@/hooks/useFormState";
 import { login } from "@/modules/login/actions/login";
 import { LoginSchema } from "@/modules/login/schema/LoginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { CircleX } from "lucide-react";
-import { useFormState } from "@/hooks/useFormState";
-import { Ellipsis } from "lucide-react";
+import { useForm } from "react-hook-form";
 
 export default function Login() {
   // Form state
-  const { isPending, setIsPending, isError, setIsError } = useFormState();
+  const {
+    isPending,
+    setIsPending,
+    isError,
+    setIsError,
+    errorMessage,
+    setErrorMessage,
+  } = useFormState();
 
   // Form config
   const form = useForm({
@@ -28,9 +34,13 @@ export default function Login() {
 
   async function onSubmit(data) {
     setIsPending(true);
-    const { error } = await login(data);
+    const error = await login(data);
     setIsPending(false);
-    setIsError(error);
+
+    if (error) {
+      setIsError(true);
+      setErrorMessage(error.error);
+    }
   }
 
   return (
@@ -47,21 +57,16 @@ export default function Login() {
             </h2>
           </div>
 
-          {isError && (
-            <div className="flex items-center gap-2 rounded-md bg-red-100 p-3 text-red-500">
-              <CircleX />
-              <p className="text-sm">{isError}</p>
-            </div>
-          )}
+          {isError && <Error messaage={errorMessage} />}
 
           <div className="space-y-4">
-            <TextInput
+            <FormInput
               form={form}
               name="username"
               label="Username"
               placeholder="Enter your username"
             />
-            <TextInput
+            <FormInput
               form={form}
               name="password"
               label="Password"
@@ -71,9 +76,7 @@ export default function Login() {
           </div>
         </div>
 
-        <Button type="submit" className="w-full" disabled={isPending}>
-          {isPending ? <Ellipsis /> : "Submit"}
-        </Button>
+        <SubmitButton className="w-full" isPending={isPending} />
       </form>
     </Form>
   );

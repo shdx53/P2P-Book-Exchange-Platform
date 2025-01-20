@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { logout } from "@/modules/login/actions/logout";
 
 export default function LogoutButton() {
@@ -9,8 +8,8 @@ export default function LogoutButton() {
   };
 
   return (
-    <Button variant="ghost" onClick={handleLogout}>
+    <span variant="ghost" className="cursor-pointer" onClick={handleLogout}>
       Log out
-    </Button>
+    </span>
   );
 }

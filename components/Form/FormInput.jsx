@@ -7,12 +7,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-export default function TextInput({
+export default function FormInput({
   form,
   name,
   label,
   type = "text",
   placeholder,
+  accept
 }) {
   return (
     <FormField
@@ -22,7 +23,7 @@ export default function TextInput({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input type={type} placeholder={placeholder} {...field} />
+            <Input type={type} placeholder={placeholder} accept={accept} {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>

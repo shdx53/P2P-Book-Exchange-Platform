@@ -8,10 +8,10 @@ export default async function Header() {
 
   return (
     <header className="flex items-center justify-between px-8 py-6 text-sm">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-6">
         <Logo />
         <nav>
-          <span>Listings</span>
+          <Link href="/listings/new">New Listing</Link>
         </nav>
       </div>
 

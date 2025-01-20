@@ -84,6 +84,6 @@ body {
 }
 
 /* General Styles */
-main {
+.wrapper {
   @apply px-8;
 }
