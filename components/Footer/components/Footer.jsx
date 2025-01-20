@@ -4,11 +4,11 @@ import { footerNavLinks } from "../lib/constants/footerNavLinks";
 export default function Footer() {
   return (
     <footer className="absolute bottom-0 w-full bg-primary p-8 text-secondary-foreground">
-      <div className="mb-16 flex gap-80 items-start">
+      <div className="mb-16 flex items-start gap-80">
         <Logo />
         <div className="grid grid-cols-2 gap-12 text-sm">
-          {footerNavLinks.map((footerNavLink) => (
-            <NavLinkColumn footerNavLink={footerNavLink} />
+          {footerNavLinks.map((footerNavLink, index) => (
+            <NavLinkColumn key={index} footerNavLink={footerNavLink} />
           ))}
         </div>
       </div>
@@ -26,10 +26,10 @@ export default function Footer() {
 
 const NavLinkColumn = ({ footerNavLink }) => (
   <div className="col-span-1 space-y-3">
-    <div className="font-medium opacity-80">{footerNavLink.heading}</div>
+    <span className="font-medium opacity-80">{footerNavLink.heading}</span>
     <nav>
       {footerNavLink.navLinks.map((navLink) => (
-        <span>{navLink}</span>
+        <span key={navLink.heading}>{navLink}</span>
       ))}
     </nav>
   </div>
