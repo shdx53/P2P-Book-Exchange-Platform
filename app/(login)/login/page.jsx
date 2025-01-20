@@ -8,7 +8,6 @@ import { useFormState } from "@/hooks/useFormState";
 import { login } from "@/modules/login/actions/login";
 import { LoginSchema } from "@/modules/login/schema/LoginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CircleX } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 export default function Login() {

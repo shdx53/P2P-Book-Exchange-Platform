@@ -87,3 +87,7 @@ body {
 .wrapper {
   @apply px-8;
 }
+
+h1 {
+  @apply font-bold;
+}

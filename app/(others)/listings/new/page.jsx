@@ -53,8 +53,8 @@ export default function NewListing() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="wrapper space-y-9"
       >
-        <div className="space-y-4">
-          <h1 className="font-bold">Create Listing</h1>
+        <div className="space-y-4 mt-6">
+          <h1>Create Listing</h1>
 
           {isError && <Error messaage={errorMessage} />}
 

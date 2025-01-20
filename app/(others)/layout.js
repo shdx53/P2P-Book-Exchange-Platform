@@ -15,9 +15,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`antialiased ${inter.className}`}>
-        <Header />
-        {children}
+      <body className={`antialiased min-h-screen ${inter.className}`}>
+        <div className="mx-auto max-w-[1536px]">
+          <Header />
+          {children}
+        </div>
         <Footer />
       </body>
     </html>
