@@ -2,7 +2,7 @@
 
 import { logout } from "@/modules/login/actions/logout";
 
-export default function LogoutButton() {
+export default function Logout() {
   const handleLogout = async () => {
     await logout();
   };

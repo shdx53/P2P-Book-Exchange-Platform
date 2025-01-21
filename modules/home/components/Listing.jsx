@@ -31,7 +31,7 @@ const ListingCard = ({ imageURL, title, author }) => (
       <ListingImage imageUrl={imageURL} className="object-contain p-6" />
     </div>
 
-    <div className="space-y-1 rounded-b-md border-x-2 border-b-2 border-muted p-4 text-start text-sm">
+    <div className="space-y-1 rounded-b-md border-x-2 border-b-2 border-border p-4 text-start text-sm">
       <p className="font-semibold">{title}</p>
       <p className="text-muted-foreground">by {author}</p>
     </div>
@@ -77,7 +77,7 @@ const ListingDetails = ({
         <p className="text-justify text-sm">{description}</p>
       </div>
 
-      <hr className="border-muted" />
+      <hr className="border-border" />
 
       <div className="space-y-4 text-sm">
         <div className="flex gap-6">

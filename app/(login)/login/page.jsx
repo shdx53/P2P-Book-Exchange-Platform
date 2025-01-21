@@ -47,7 +47,7 @@ export default function Login() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="absolute left-1/2 top-1/2 w-96 -translate-x-1/2 -translate-y-1/2 space-y-8 rounded-lg border-2 border-input p-6"
+        className="absolute left-1/2 top-1/2 w-96 -translate-x-1/2 -translate-y-1/2 space-y-8 rounded-lg border-2 border-border p-6"
       >
         <div className="space-y-6">
           <div className="space-y-1 text-center">

@@ -1,10 +1,18 @@
 import { getSession } from "@/modules/login/actions/getSession";
 import Link from "next/link";
 import Logo from "../../Logo";
-import LogoutButton from "./LogoutButton";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Logout from "./Logout";
 
 export default async function Header() {
-  const { isLoggedIn } = await getSession();
+  const { isLoggedIn, username } = await getSession();
 
   return (
     <header className="flex items-center justify-between px-8 py-6 text-sm">
@@ -16,8 +24,28 @@ export default async function Header() {
       </div>
 
       <span>
-        {isLoggedIn ? <LogoutButton /> : <Link href="/login">Log in</Link>}
+        {isLoggedIn ? (
+          <Dropdown username={username} />
+        ) : (
+          <Link href="/login">Log in</Link>
+        )}
       </span>
     </header>
   );
 }
+
+const Dropdown = ({ username }) => (
+  <DropdownMenu>
+    <DropdownMenuTrigger>{username}</DropdownMenuTrigger>
+    <DropdownMenuContent className="border-border">
+      <DropdownMenuLabel className="font-medium">My Account</DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem>Profile</DropdownMenuItem>
+      <DropdownMenuItem>Listings</DropdownMenuItem>
+      <DropdownMenuItem>Requests</DropdownMenuItem>
+      <DropdownMenuItem>
+        <Logout />
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+);
