@@ -1,5 +1,5 @@
 import { getSession } from "@/modules/login/actions/getSession";
-import Listing from "./Listing";
+import Listing from "./Listing/components/Listing";
 
 export default async function ListingList({ type }) {
   let endpoint = `${process.env.NEXT_PUBLIC_BASE_URL}/api`;
@@ -8,10 +8,14 @@ export default async function ListingList({ type }) {
     // My listings page
     const { userId } = await getSession();
     endpoint += `/listings?userId=${userId}`;
-  } else if (type === "my requests") {
+  } else if (type === "manage requests") {
     // My exchange requests page
     const { userId } = await getSession();
     endpoint += `/requests?listingUserId=${userId}`;
+  } else if (type === "my requests") {
+    // My requests page
+    const { userId } = await getSession();
+    endpoint += `/requests?userId=${userId}`;
   } else {
     endpoint += "/listings";
   }

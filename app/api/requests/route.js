@@ -3,35 +3,58 @@ import { NextResponse } from "next/server";
 
 export async function GET(request) {
   try {
-    // Extract user ID from the query parameters
     const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("listingUserId");
 
-    if (!userId) {
-      return NextResponse.json({ message: "Missing user ID" }, { status: 400 });
+    // Extract the user ID of the listing's owner from the query parameters
+    const listingUserId = searchParams.get("listingUserId");
+
+    // Extract user ID from the query parameters
+    const userId = searchParams.get("userId");
+
+    if (!listingUserId && !userId) {
+      return NextResponse.json(
+        { message: "Missing required fields" },
+        { status: 400 },
+      );
     }
 
     const pool = await connection();
     const conn = await pool.getConnection();
 
-    // Query the database to get the exchange requests for the user's listings
-    const [data] = await conn.query(
-      `
-        SELECT l.listing_id AS listingId, l.title, l.author, l.image_url AS imageURL, u.username, r.request_id AS requestId, r.created_at AS createdAt
-        FROM listings AS l 
-        JOIN requests AS r ON l.listing_id = r.listing_id
-        JOIN users AS u ON r.user_id = u.user_id
-        WHERE r.status = "pending" AND l.user_id = ?
-      `,
-      [userId],
-    );
+    let data;
+
+    if (listingUserId) {
+      // Query the database to get the exchange requests for the user's listings
+      const [exchangeRequests] = await conn.query(
+        `
+          SELECT l.listing_id AS listingId, l.title, l.author, l.image_url AS imageURL, u.username, u.email, r.request_id AS requestId, r.created_at AS createdAt
+          FROM listings AS l 
+          JOIN requests AS r ON l.listing_id = r.listing_id
+          JOIN users AS u ON r.user_id = u.user_id
+          WHERE r.status = "pending" AND l.user_id = ?
+        `,
+        [listingUserId],
+      );
+      data = exchangeRequests;
+    } else {
+      const [userRequests] = await conn.query(
+        `
+          SELECT l.title, l.author, l.image_url AS imageURL, r.status
+          FROM requests r 
+          JOIN listings l ON r.listing_id = r.listing_id
+          WHERE r.user_id = ?
+        `,
+        [userId],
+      );
+      data = userRequests;
+    }
 
     conn.release();
 
-    // Check if exchange requests are found
+    // Check if requests are found
     if (data.length === 0) {
       return NextResponse.json(
-        { message: "No exchange requests found" },
+        { message: "No requests found" },
         { status: 404 },
       );
     }
@@ -171,7 +194,7 @@ export async function PUT(request) {
 
     return NextResponse.json(
       { message: "Request updated successfully" },
-      { status: 201 },
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json(

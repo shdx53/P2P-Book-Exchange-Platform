@@ -7,13 +7,14 @@ import {
 } from "@/components/ui/dialog";
 import { getSGTFormattedDate } from "@/lib/utils";
 import Image from "next/image";
-import AcceptForm from "./Listing/components/AcceptForm/components/AcceptForm";
-import RequestForm from "./Listing/components/RequestForm/components/RequestForm";
+import { statusColors } from "../lib/constants/statusColors";
+import AcceptForm from "./AcceptForm/components/AcceptForm";
+import RequestForm from "./RequestForm/components/RequestForm";
 
 export default function Listing({ listing, type }) {
   return (
     <>
-      {type === "my requests" ? (
+      {type === "manage requests" || type === "my requests" ? (
         <ListingCard {...listing} type={type} />
       ) : (
         <Dialog>
@@ -36,13 +37,23 @@ const ListingCard = ({
   imageURL,
   title,
   author,
-  username,
   type,
+  username,
+  email,
   createdAt,
   requestId,
   listingId,
+  status,
 }) => {
   const formattedDate = getSGTFormattedDate(new Date(createdAt));
+
+  let textColor, bgColor;
+
+  if (status) {
+    const colors = statusColors[status];
+    textColor = colors.textColor;
+    bgColor = colors.bgColor;
+  }
 
   return (
     <article className="col-span-1">
@@ -56,7 +67,7 @@ const ListingCard = ({
           <p className="text-muted-foreground">by {author}</p>
         </div>
 
-        {type === "my requests" && (
+        {type === "manage requests" && (
           <>
             <hr className="border-border" />
             <div className="space-y-1">
@@ -64,10 +75,27 @@ const ListingCard = ({
               <p>{username}</p>
             </div>
             <div className="space-y-1">
+              <p className="font-medium">Email</p>
+              <p>{email}</p>
+            </div>
+            <div className="space-y-1">
               <p className="font-medium">Requested on</p>
               <p>{formattedDate}</p>
             </div>
             <AcceptForm requestId={requestId} listingId={listingId} />
+          </>
+        )}
+
+        {type === "my requests" && (
+          <>
+            <div className="space-x-2">
+              <span className="font-medium">Status:</span>
+              <span
+                className={`${textColor} ${bgColor} rounded-md p-2 capitalize`}
+              >
+                {status}
+              </span>
+            </div>
           </>
         )}
       </div>

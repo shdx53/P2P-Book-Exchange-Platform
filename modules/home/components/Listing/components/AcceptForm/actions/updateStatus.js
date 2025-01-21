@@ -13,15 +13,7 @@ export const updateStatus = async (requestId, listingId) => {
     body: JSON.stringify(body),
   });
 
-  if (data.status === 400) {
-    const result = await data.json();
-
-    if (result.message !== "Missing required fields") {
-      return { error: result.message };
-    }
-  }
-
-  if ([400, 500].includes(data.status)) {
+  if (data.status === 500) {
     return { error: "Oops! Something went wrong" };
   }
 };
