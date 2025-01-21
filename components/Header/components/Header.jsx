@@ -1,6 +1,3 @@
-import { getSession } from "@/modules/login/actions/getSession";
-import Link from "next/link";
-import Logo from "../../Logo";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,6 +6,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getSession } from "@/modules/login/actions/getSession";
+import Link from "next/link";
+import Logo from "../../Logo";
+import { dropdownLinks } from "../lib/contants/dropdownLinks";
 import Logout from "./Logout";
 
 export default async function Header() {
@@ -41,15 +42,13 @@ const Dropdown = ({ username }) => (
       <DropdownMenuLabel className="font-medium">My Account</DropdownMenuLabel>
       <DropdownMenuSeparator />
       <DropdownMenuItem>Profile</DropdownMenuItem>
-      <DropdownMenuItem>
-        <Link href="/listings/my">My Listings</Link>
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <Link href="/requests/my">My Requests</Link>
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <Link href="/requests/manage">Manage Requests</Link>
-      </DropdownMenuItem>
+      {dropdownLinks.map(({ href, label }) => (
+        <DropdownMenuItem>
+          <Link href={href} className="w-full">
+            {label}
+          </Link>
+        </DropdownMenuItem>
+      ))}
       <DropdownMenuItem>
         <Logout />
       </DropdownMenuItem>

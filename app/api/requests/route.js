@@ -41,7 +41,7 @@ export async function GET(request) {
         `
           SELECT l.title, l.author, l.image_url AS imageURL, r.status
           FROM requests r 
-          JOIN listings l ON r.listing_id = r.listing_id
+          JOIN listings l ON l.listing_id = r.listing_id
           WHERE r.user_id = ?
         `,
         [userId],

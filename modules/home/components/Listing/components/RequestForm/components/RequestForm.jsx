@@ -7,7 +7,7 @@ import { useFormState } from "@/hooks/useFormState";
 import { useForm } from "react-hook-form";
 import { request } from "../actions/request";
 
-export default function RequestForm({ listingId, username }) {
+export default function RequestForm({ listingId, isLoggedIn }) {
   // Form state
   const {
     isPending,
@@ -43,6 +43,7 @@ export default function RequestForm({ listingId, username }) {
           className="w-full"
           isPending={isPending}
           text="Request to exchange"
+          disabled={!isLoggedIn}
         />
       </form>
     </Form>

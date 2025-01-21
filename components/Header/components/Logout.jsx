@@ -8,7 +8,11 @@ export default function Logout() {
   };
 
   return (
-    <span variant="ghost" className="cursor-pointer" onClick={handleLogout}>
+    <span
+      variant="ghost"
+      className="w-full cursor-pointer"
+      onClick={handleLogout}
+    >
       Log out
     </span>
   );

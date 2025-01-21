@@ -10,6 +10,7 @@ import Image from "next/image";
 import { statusColors } from "../lib/constants/statusColors";
 import AcceptForm from "./AcceptForm/components/AcceptForm";
 import RequestForm from "./RequestForm/components/RequestForm";
+import { getSession } from "@/modules/login/actions/getSession";
 
 export default function Listing({ listing, type }) {
   return (
@@ -119,7 +120,7 @@ const ListingImage = ({ imageUrl, className }) => (
   <Image src={imageUrl} alt="Listing image" className={className} fill />
 );
 
-const ListingDetails = ({
+const ListingDetails = async ({
   title,
   author,
   genre,
@@ -127,9 +128,9 @@ const ListingDetails = ({
   username,
   createdAt,
   listingId,
-  type,
 }) => {
   const formattedDate = getSGTFormattedDate(new Date(createdAt));
+  const { isLoggedIn } = await getSession();
 
   return (
     <div className="col-span-2 space-y-6 px-6 py-8">
@@ -156,7 +157,7 @@ const ListingDetails = ({
             <p>{formattedDate}</p>
           </div>
         </div>
-        <RequestForm listingId={listingId} />
+        <RequestForm listingId={listingId} isLoggedIn={isLoggedIn} />
       </div>
     </div>
   );
