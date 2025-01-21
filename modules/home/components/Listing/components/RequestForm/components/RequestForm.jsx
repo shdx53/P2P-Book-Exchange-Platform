@@ -7,7 +7,7 @@ import { useFormState } from "@/hooks/useFormState";
 import { useForm } from "react-hook-form";
 import { request } from "../actions/request";
 
-export default function RequestForm({ listingId }) {
+export default function RequestForm({ listingId, username }) {
   // Form state
   const {
     isPending,

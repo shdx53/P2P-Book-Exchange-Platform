@@ -41,7 +41,9 @@ const Dropdown = ({ username }) => (
       <DropdownMenuLabel className="font-medium">My Account</DropdownMenuLabel>
       <DropdownMenuSeparator />
       <DropdownMenuItem>Profile</DropdownMenuItem>
-      <DropdownMenuItem>Listings</DropdownMenuItem>
+      <DropdownMenuItem>
+        <Link href="/listings/my">Listings</Link>
+      </DropdownMenuItem>
       <DropdownMenuItem>Requests</DropdownMenuItem>
       <DropdownMenuItem>
         <Logout />

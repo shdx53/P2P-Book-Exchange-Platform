@@ -7,38 +7,75 @@ import {
 } from "@/components/ui/dialog";
 import { getSGTFormattedDate } from "@/lib/utils";
 import Image from "next/image";
-import RequestForm from "./RequestForm/components/RequestForm";
+import AcceptForm from "./Listing/components/AcceptForm/components/AcceptForm";
+import RequestForm from "./Listing/components/RequestForm/components/RequestForm";
 
-export default function Listing({ listing }) {
+export default function Listing({ listing, type }) {
   return (
-    <Dialog>
-      <DialogTrigger>
-        <ListingCard {...listing} />
-      </DialogTrigger>
-      <DialogContent className="max-w-2xl p-0">
-        <DialogHeader className="space-y-0">
-          <DialogTitle />
-          <ModalContent listing={listing} />
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+    <>
+      {type === "my requests" ? (
+        <ListingCard {...listing} type={type} />
+      ) : (
+        <Dialog>
+          <DialogTrigger>
+            <ListingCard {...listing} type={type} />
+          </DialogTrigger>
+          <DialogContent className="max-w-2xl p-0">
+            <DialogHeader className="space-y-0">
+              <DialogTitle />
+              <ModalContent listing={listing} type={type} />
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      )}
+    </>
   );
 }
 
-const ListingCard = ({ imageURL, title, author }) => (
-  <article className="col-span-1">
-    <div className="relative h-72 rounded-t-md bg-muted">
-      <ListingImage imageUrl={imageURL} className="object-contain p-6" />
-    </div>
+const ListingCard = ({
+  imageURL,
+  title,
+  author,
+  username,
+  type,
+  createdAt,
+  requestId,
+  listingId,
+}) => {
+  const formattedDate = getSGTFormattedDate(new Date(createdAt));
 
-    <div className="space-y-1 rounded-b-md border-x-2 border-b-2 border-border p-4 text-start text-sm">
-      <p className="font-semibold">{title}</p>
-      <p className="text-muted-foreground">by {author}</p>
-    </div>
-  </article>
-);
+  return (
+    <article className="col-span-1">
+      <div className="relative h-72 rounded-t-md bg-muted">
+        <ListingImage imageUrl={imageURL} className="object-contain p-6" />
+      </div>
 
-const ModalContent = ({ listing }) => (
+      <div className="space-y-4 rounded-b-md border-x-2 border-b-2 border-border p-4 text-start text-sm">
+        <div className="space-y-1">
+          <p className="font-semibold">{title}</p>
+          <p className="text-muted-foreground">by {author}</p>
+        </div>
+
+        {type === "my requests" && (
+          <>
+            <hr className="border-border" />
+            <div className="space-y-1">
+              <p className="font-medium">Requested by</p>
+              <p>{username}</p>
+            </div>
+            <div className="space-y-1">
+              <p className="font-medium">Requested on</p>
+              <p>{formattedDate}</p>
+            </div>
+            <AcceptForm requestId={requestId} listingId={listingId} />
+          </>
+        )}
+      </div>
+    </article>
+  );
+};
+
+const ModalContent = ({ listing, type }) => (
   <div className="grid grid-cols-3">
     <div className="col-span-1 bg-muted px-6 py-8">
       <div className="relative h-72">
@@ -46,7 +83,7 @@ const ModalContent = ({ listing }) => (
       </div>
     </div>
 
-    <ListingDetails {...listing} />
+    <ListingDetails {...listing} type={type} />
   </div>
 );
 
@@ -62,6 +99,7 @@ const ListingDetails = ({
   username,
   createdAt,
   listingId,
+  type,
 }) => {
   const formattedDate = getSGTFormattedDate(new Date(createdAt));
 

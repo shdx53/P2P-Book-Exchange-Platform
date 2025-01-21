@@ -19,7 +19,11 @@ export async function GET(request) {
 
     // Query the database to get the user by username
     const [data] = await conn.query(
-      "SELECT user_id, password FROM users WHERE username = ?",
+      `
+        SELECT user_id, password 
+        FROM users 
+        WHERE username = ?
+      `,
       [formUsername],
     );
 

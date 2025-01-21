@@ -1,10 +1,22 @@
+import { getSession } from "@/modules/login/actions/getSession";
 import Listing from "./Listing";
 
 export default async function ListingList({ type }) {
-  // Personal listings page
+  let endpoint = `${process.env.NEXT_PUBLIC_BASE_URL}/api`;
 
+  if (type === "my listings") {
+    // My listings page
+    const { userId } = await getSession();
+    endpoint += `/listings?userId=${userId}`;
+  } else if (type === "my requests") {
+    // My exchange requests page
+    const { userId } = await getSession();
+    endpoint += `/requests?listingUserId=${userId}`;
+  } else {
+    endpoint += "/listings";
+  }
 
-  const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/listings`, {
+  const data = await fetch(endpoint, {
     cache: "no-store",
   });
   const listings = await data.json();
@@ -24,7 +36,7 @@ export default async function ListingList({ type }) {
   return (
     <div className="grid grid-cols-4 gap-6">
       {listings.map((listing, index) => (
-        <Listing key={index} listing={listing} />
+        <Listing key={index} listing={listing} type={type} />
       ))}
     </div>
   );

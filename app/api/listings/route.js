@@ -2,14 +2,37 @@ import { connection } from "@/lib/db";
 import { pinata } from "@/lib/pinata";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request) {
   try {
+    // Extract userId from the query parameters
+    const { searchParams } = new URL(request.url);
+    let userId = searchParams.get("userId");
+
     const pool = await connection();
     const conn = await pool.getConnection();
 
-    const [data] = await conn.query(
-      "SELECT listing_id as listingId, title, author, genre, description, image_url AS imageURL, user_id AS userId, created_at AS createdAt FROM listings",
-    );
+    let data;
+
+    // If userId is provided, filter by userId; otherwise, get all listings
+    if (userId) {
+      const [filteredData] = await conn.query(
+        `
+          SELECT listing_id as listingId, title, author, genre, description, image_url AS imageURL, user_id AS userId, created_at AS createdAt 
+          FROM listings 
+          WHERE user_id = ?
+        `,
+        [userId],
+      );
+      data = filteredData;
+    } else {
+      const [allData] = await conn.query(
+        `
+          SELECT listing_id as listingId, title, author, genre, description, image_url AS imageURL, user_id AS userId, created_at AS createdAt 
+          FROM listings
+        `,
+      );
+      data = allData;
+    }
 
     // Check if listings exists
     if (data.length === 0) {
@@ -19,11 +42,15 @@ export async function GET() {
       );
     }
 
-    const userId = data[0].userId;
+    userId = data[0].userId;
 
     // Query the database to get the username of the listing's owner
     const [user] = await conn.query(
-      "SELECT username FROM users WHERE user_id = ?",
+      `
+        SELECT username 
+        FROM users 
+        WHERE user_id = ?
+      `,
       [userId],
     );
     const username = user[0].username;
