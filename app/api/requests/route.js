@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
-    // Parse the JSON body
     const { listingId, userId, username } = await request.json();
 
     // Validate the required fields
@@ -16,7 +15,6 @@ export async function POST(request) {
       );
     }
 
-    // Connect to the database
     const pool = await connection();
     const conn = await pool.getConnection();
 
@@ -59,7 +57,6 @@ export async function POST(request) {
 
     conn.release();
 
-    // Return success response
     return NextResponse.json(
       { message: "Request added successfully" },
       { status: 201 },

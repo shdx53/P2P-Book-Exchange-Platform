@@ -31,6 +31,7 @@ export default function Login() {
     mode: "onChange",
   });
 
+  // Form submit
   async function onSubmit(data) {
     setIsPending(true);
     const error = await login(data);

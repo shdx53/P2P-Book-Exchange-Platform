@@ -4,7 +4,7 @@ import { getSession } from "@/modules/login/actions/getSession";
 import { redirect } from "next/navigation";
 
 export const createListing = async (formData) => {
-  const {username} = await getSession();
+  const { username } = await getSession();
 
   const formTitle = formData.title;
   const formAuthor = formData.author;
@@ -16,7 +16,7 @@ export const createListing = async (formData) => {
   body.append("title", formTitle);
   body.append("author", formAuthor);
   body.append("genre", formGenre);
-  body.append("image", formImage); 
+  body.append("image", formImage);
   body.append("description", formDescription);
   body.append("username", username);
 
@@ -25,7 +25,7 @@ export const createListing = async (formData) => {
     body: body,
   });
 
-  if (data.status === 500) {
+  if ([400, 500].includes(data.status)) {
     return { error: "Oops! Something went wrong" };
   }
 

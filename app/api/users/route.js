@@ -14,7 +14,6 @@ export async function GET(request) {
       );
     }
 
-    // Connect to the database
     const pool = await connection();
     const conn = await pool.getConnection();
 
@@ -31,7 +30,6 @@ export async function GET(request) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    // Return the user data if found
     return NextResponse.json(data[0], { status: 200 });
   } catch (error) {
     return NextResponse.json(

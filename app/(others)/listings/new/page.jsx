@@ -36,6 +36,7 @@ export default function NewListing() {
     mode: "onChange",
   });
 
+  // Form submit
   async function onSubmit(data) {
     setIsPending(true);
     const error = await createListing(data);
