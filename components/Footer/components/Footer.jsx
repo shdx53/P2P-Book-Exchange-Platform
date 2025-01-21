@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Logo from "../../Logo";
 import { footerNavLinks } from "../lib/constants/footerNavLinks";
 
@@ -29,9 +30,11 @@ export default function Footer() {
 const NavLinkColumn = ({ footerNavLink }) => (
   <div className="col-span-1 space-y-3">
     <span className="font-medium opacity-50">{footerNavLink.heading}</span>
-    <nav>
-      {footerNavLink.navLinks.map((navLink, index) => (
-        <span key={index}>{navLink}</span>
+    <nav className="flex flex-col space-y-1">
+      {Object.values(footerNavLink.navLinks).map((navLink, index) => (
+        <Link key={index} href={navLink.href}>
+          {navLink.label}
+        </Link>
       ))}
     </nav>
   </div>

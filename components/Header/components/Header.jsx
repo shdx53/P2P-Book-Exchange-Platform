@@ -42,9 +42,14 @@ const Dropdown = ({ username }) => (
       <DropdownMenuSeparator />
       <DropdownMenuItem>Profile</DropdownMenuItem>
       <DropdownMenuItem>
-        <Link href="/listings/my">Listings</Link>
+        <Link href="/listings/my">My Listings</Link>
       </DropdownMenuItem>
-      <DropdownMenuItem>Requests</DropdownMenuItem>
+      <DropdownMenuItem>
+        <Link href="/requests/my">My Requests</Link>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <Link href="/requests/manage">Manage Requests</Link>
+      </DropdownMenuItem>
       <DropdownMenuItem>
         <Logout />
       </DropdownMenuItem>

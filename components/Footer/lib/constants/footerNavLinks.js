@@ -1,10 +1,28 @@
 export const footerNavLinks = [
   {
-    heading: "Products",
-    navLinks: ["Listings"],
+    heading: "Listings",
+    navLinks: {
+      Listings: {
+        label: "Listings",
+        href: "/",
+      },
+      "New Listing": {
+        label: "New Listing",
+        href: "/listings/new",
+      },
+    },
   },
   {
-    heading: "Company",
-    navLinks: [""],
+    heading: "Requests",
+    navLinks: {
+      "My Requests": {
+        label: "My Requests",
+        href: "/requests/my",
+      },
+      "Manage Requests": {
+        label: "Manage Requests",
+        href: "/requests/manage",
+      },
+    },
   },
 ];
