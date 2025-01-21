@@ -59,7 +59,7 @@ const ListingDetails = ({
   author,
   genre,
   description,
-  listedBy,
+  username,
   createdAt,
   listingId,
 }) => {
@@ -83,7 +83,7 @@ const ListingDetails = ({
         <div className="flex gap-6">
           <div>
             <p className="font-medium">Listed by</p>
-            <p>{listedBy}</p>
+            <p>{username}</p>
           </div>
           <div>
             <p className="font-medium">Listed on</p>

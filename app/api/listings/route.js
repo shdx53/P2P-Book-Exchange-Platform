@@ -4,15 +4,12 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-
     const pool = await connection();
     const conn = await pool.getConnection();
 
     const [data] = await conn.query(
-      "SELECT listing_id as listingId, title, author, genre, description, image_url AS imageURL, listed_by AS listedBy, created_at AS createdAt FROM listings",
+      "SELECT listing_id as listingId, title, author, genre, description, image_url AS imageURL, user_id AS userId, created_at AS createdAt FROM listings",
     );
-
-    conn.release();
 
     // Check if listings exists
     if (data.length === 0) {
@@ -21,6 +18,18 @@ export async function GET() {
         { status: 404 },
       );
     }
+
+    const userId = data[0].userId;
+
+    // Query the database to get the username of the listing's owner
+    const [user] = await conn.query(
+      "SELECT username FROM users WHERE user_id = ?",
+      [userId],
+    );
+    const username = user[0].username;
+
+    // Add the username to the listing data
+    data[0] = { ...data[0], username };
 
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
@@ -39,14 +48,13 @@ export async function POST(request) {
     const genre = data.get("genre");
     const image = data.get("image");
     const description = data.get("description");
-    const listedBy = data.get("username");
+    const userId = data.get("userId");
 
     // Validate the required fields
     if (!title || !author || !genre || !image || !description) {
       return NextResponse.json(
         {
-          message:
-            "Missing required fields",
+          message: "Missing required fields",
         },
         { status: 400 },
       );
@@ -60,10 +68,10 @@ export async function POST(request) {
     const conn = await pool.getConnection();
 
     const query = `
-      INSERT INTO listings (title, author, genre, description, image_url, listed_by)
+      INSERT INTO listings (title, author, genre, description, image_url, user_id)
       VALUES (?, ?, ?, ?, ?, ?)
     `;
-    await conn.query(query, [title, author, genre, description, url, listedBy]);
+    await conn.query(query, [title, author, genre, description, url, userId]);
 
     conn.release();
 

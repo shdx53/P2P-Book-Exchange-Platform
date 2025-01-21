@@ -4,7 +4,7 @@ import { getSession } from "@/modules/login/actions/getSession";
 import { redirect } from "next/navigation";
 
 export const createListing = async (formData) => {
-  const { username } = await getSession();
+  const { userId } = await getSession();
 
   const formTitle = formData.title;
   const formAuthor = formData.author;
@@ -18,7 +18,7 @@ export const createListing = async (formData) => {
   body.append("genre", formGenre);
   body.append("image", formImage);
   body.append("description", formDescription);
-  body.append("username", username);
+  body.append("userId", userId);
 
   const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/listings`, {
     method: "POST",

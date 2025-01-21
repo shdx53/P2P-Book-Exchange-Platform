@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
-    const { listingId, userId, username } = await request.json();
+    const { listingId, userId } = await request.json();
 
     // Validate the required fields
     if (!listingId || !userId) {
@@ -20,8 +20,8 @@ export async function POST(request) {
 
     // Query the database to check if the user is trying to request their own listing
     const [listing] = await conn.query(
-      "SELECT listing_id FROM listings WHERE listing_id = ? AND listed_by = ?",
-      [listingId, username],
+      "SELECT listing_id FROM listings WHERE listing_id = ? AND user_id = ?",
+      [listingId, userId],
     );
 
     if (listing.length > 0) {

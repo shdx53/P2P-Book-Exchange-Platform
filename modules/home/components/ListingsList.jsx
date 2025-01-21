@@ -1,6 +1,9 @@
 import Listing from "./Listing";
 
-export default async function ListingList() {
+export default async function ListingList({ type }) {
+  // Personal listings page
+
+
   const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/listings`, {
     cache: "no-store",
   });
