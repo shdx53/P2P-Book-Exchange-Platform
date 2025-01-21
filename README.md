@@ -26,10 +26,13 @@ BookSwap is a web application that facilitates book exchanges by providing a cen
 ```bash
 # Step 1: Place .env file in the root directory
 
-# Step 2: Install dependencies
+# Step 2: Install Node.js
+https://nodejs.org/en/download
+
+# Step 3: Install dependencies
 npm i
 
-# Step 3: Start development server
+# Step 4: Start development server
 npm run dev
 ```
 
